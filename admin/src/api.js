@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://innovative-staffing.vercel.app/api', // Your backend URL
+  baseURL: https://innovative-staffing-1.onrender.com/api', // Your backend URL
   // You can add headers or interceptors here if needed
 });
 
