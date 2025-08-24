@@ -18,7 +18,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174','https://innovative-staffing.vercel.app/'],
+  origin: ['https://innovative-staffing.vercel.app/','https://innovative-staffing-v7jj.vercel.app/'],
   credentials: true,
 }));
 app.use(express.json());
