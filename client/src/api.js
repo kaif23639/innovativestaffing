@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://innovative-staffing-1.onrender.com'; 
+const BASE_URL = 'https://innovativestaffing.onrender.com'; 
 const api = axios.create({
 
-  baseURL: 'https://innovative-staffing-1.onrender.com', 
+  baseURL: 'https://innovativestaffing.onrender.com', 
   baseURL: BASE_URL,
 
 });
