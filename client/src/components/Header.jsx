@@ -78,7 +78,7 @@ export default function Header({ isLoggedIn, onLogout }) {
     <header className="fixed top-0 left-0 right-0 z-50 bg-black md:bg-black/50 md:backdrop-blur-sm border-b border-[#008080]/20">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 h-[72px]">
         <Link to="/" className="text-xl font-bold text-white flex items-center gap-2" onMouseEnter={() => setLogoHovered(true)} onMouseLeave={() => setLogoHovered(false)}>
-          <h4 className=" font-bold text-2xl mb-4 pt-8"><img className="h-20 w-20" src={logo} alt="" /></h4>
+          <h4 className=" font-bold text-2xl mb-4 pt-4"><img className="h-20 w-20" src={logo} alt="" /></h4>
         </Link>
 
         <button className="md:hidden text-white z-50" onClick={() => setIsMobileMenuOpen((prev) => !prev)}>
