@@ -382,7 +382,7 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 40 }}
                   transition={{ duration: 0.5, delay: i * 0.07 }}
-                  className="w-full sm:w-auto" 
+                  className="w-full sm:w-auto flex justify-center" 
                 >
                   <HowWeWorkFlashcard step={step} accent={step.back.accent} />
                 </motion.div>
