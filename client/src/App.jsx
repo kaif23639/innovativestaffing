@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Footer from './components/Footer';
 import Header from "./components/Header";
@@ -25,22 +25,42 @@ import ScrollToTop from "./components/ScrollToTop";
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import FAQsPage from './pages/FAQsPage';
-import Chatbot from "./components/Chatbot"; // <-- Import the Chatbot component
+import Chatbot from "./components/Chatbot";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const [user, setUser] = useState(null);
-
+  const [user, setUser] = useState(null); // Assuming you might use this later
   const navigate = useNavigate();
 
+  // This effect keeps the auth state in sync if localStorage is changed in another tab
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(localStorage.getItem('token'));
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
   const handleVerified = (jwtToken, userInfo) => {
+    localStorage.setItem('token', jwtToken);
     setToken(jwtToken);
     setUser(userInfo);
-    localStorage.setItem('token', jwtToken);
     navigate('/');
   };
 
+  // 1. CREATE THE LOGOUT FUNCTION IN THE PARENT COMPONENT
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setToken(null);
+    setUser(null);
+    navigate("/");
+  };
+
   const RequireAuth = ({ children }) => {
+    // This now correctly uses the up-to-date state variable `token`
     if (!token) {
       return <Navigate to="/login" replace />;
     }
@@ -64,12 +84,13 @@ function App() {
 
   return (
     <>
-      <Header />
+      {/* 2. PASS STATE AND LOGOUT FUNCTION DOWN AS PROPS */}
+      <Header isLoggedIn={!!token} onLogout={handleLogout} />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Homepage onJoinAsTalent={startAuthFlow} />} />
         <Route path="/services" element={<ServicesPage />} />
-        <Route path="/about" element={<AboutPage />} /> 
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/subpage/:slug" element={<Subpage />} />
         <Route path="/blogs" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogOverviewPage />} />
@@ -82,64 +103,16 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-of-service" element={<TermsPage />} />
         <Route path="/faqs" element={<FAQsPage />} />
-
-     
         <Route path="/category/:slug" element={<CategoryOverviewPage />} />
-
-        <Route
-          path="/login"
-          element={
-            <RedirectIfAuth>
-              <Login onVerified={handleVerified} />
-            </RedirectIfAuth>
-          }
-        />
-
-        <Route
-          path="/signup"
-          element={
-            <RedirectIfAuth>
-              <Signup />
-            </RedirectIfAuth>
-          }
-        />
-        <Route
-          path="/verify-otp"
-          element={
-            <RedirectIfAuth>
-              <OtpVerify onVerified={handleVerified} />
-            </RedirectIfAuth>
-          }
-        />
-        <Route
-          path="/passwordreset"
-          element={
-            <RedirectIfAuth>
-              <PasswordReset />
-            </RedirectIfAuth>
-          }
-        />
-
-        {/* Protect Join as Talent (login required) */}
-        <Route
-          path="/join-as-talent"
-          element={
-            <RequireAuth>
-              <JoinAsTalent />
-            </RequireAuth>
-          }
-        />
-        {/* Team-Up Request is public */}
+        <Route path="/login" element={<RedirectIfAuth><Login onVerified={handleVerified} /></RedirectIfAuth>} />
+        <Route path="/signup" element={<RedirectIfAuth><Signup /></RedirectIfAuth>} />
+        <Route path="/verify-otp" element={<RedirectIfAuth><OtpVerify onVerified={handleVerified} /></RedirectIfAuth>} />
+        <Route path="/passwordreset" element={<RedirectIfAuth><PasswordReset /></RedirectIfAuth>} />
+        <Route path="/join-as-talent" element={<RequireAuth><JoinAsTalent /></RequireAuth>} />
         <Route path="/team-up-request" element={<TeamUpRequest />} />
-
-     
-
-        
-      
       </Routes>
-        <Chatbot />
+      <Chatbot />
       <Footer />
-
     </>
   );
 }
