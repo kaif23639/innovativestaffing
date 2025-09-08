@@ -61,7 +61,7 @@ export default function OtpVerify() {
   if (!formData) return <p>Loading...</p>;
 
 return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className="min-h-screen bg-black flex items-center justify-center rounded-2xl">
       <div className="max-w-md w-full p-8 bg-black rounded-2xl shadow-lg font-sans border border-teal-700">
         <h2 className="text-2xl font-extrabold text-teal-600 mb-6 text-center">
           Verify OTP for {formData.email}
