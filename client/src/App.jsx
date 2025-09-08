@@ -37,7 +37,7 @@ function App() {
     setToken(jwtToken);
     setUser(userInfo);
     localStorage.setItem('token', jwtToken);
-    navigate('/dashboard');
+    navigate('/');
   };
 
   const RequireAuth = ({ children }) => {
@@ -49,7 +49,7 @@ function App() {
 
   const RedirectIfAuth = ({ children }) => {
     if (token) {
-      return <Navigate to="/dashboard" replace />;
+      return <Navigate to="/" replace />;
     }
     return children;
   };
@@ -69,7 +69,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage onJoinAsTalent={startAuthFlow} />} />
         <Route path="/services" element={<ServicesPage />} />
-        <Route path="/about" element={<AboutPage />} /> {/* Add the route for the About page */}
+        <Route path="/about" element={<AboutPage />} /> 
         <Route path="/subpage/:slug" element={<Subpage />} />
         <Route path="/blogs" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogOverviewPage />} />
@@ -83,7 +83,7 @@ function App() {
         <Route path="/terms-of-service" element={<TermsPage />} />
         <Route path="/faqs" element={<FAQsPage />} />
 
-        {/* Dynamic category overview page by slug */}
+     
         <Route path="/category/:slug" element={<CategoryOverviewPage />} />
 
         <Route
@@ -132,27 +132,7 @@ function App() {
         {/* Team-Up Request is public */}
         <Route path="/team-up-request" element={<TeamUpRequest />} />
 
-        <Route
-          path="/dashboard"
-          element={
-            <RequireAuth>
-              <div style={{ padding: 20 }}>
-                <h1>Dashboard</h1>
-                <p>Welcome, {user?.email || "User"}!</p>
-                <button
-                  onClick={() => {
-                    setToken(null);
-                    setUser(null);
-                    localStorage.removeItem('token');
-                    navigate('/');
-                  }}
-                >
-                  Logout
-                </button>
-              </div>
-            </RequireAuth>
-          }
-        />
+     
 
         
       
