@@ -26,7 +26,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   origin: [
     'https://innovative-staffing.vercel.app',
-    'https://innovative-staffing-v7jj.vercel.app'
+    'https://innovative-staffing-v7jj.vercel.app',
+    'http://localhost:5173', 
+    'http://localhost:5174'
   ],
   credentials: true,
 }));
