@@ -139,7 +139,7 @@ const Chatbot = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-8 left-2 right-8 w-full max-w-xs h-[80vh] max-h-[600px] flex flex-col rounded-2xl shadow-2xl z-50 backdrop-blur-md"
+            className="fixed bottom-8 right-8 w-full max-w-xs h-[80vh] max-h-[600px] flex flex-col rounded-2xl shadow-2xl z-50 backdrop-blur-md"
             style={{
               background: "rgba(6, 0, 9, 0.9)",
               boxShadow: "0 0 30px rgba(64, 224, 208, 0.5)",
