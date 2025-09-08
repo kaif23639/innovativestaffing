@@ -10,10 +10,16 @@ const userAuthRoutes = require('./routes/userAuth');
 const adminAuthRoutes = require('./routes/adminAuth');
 const categoryRoutes = require('./routes/categories');
 const subpageRoutes = require('./routes/subpages');
-const flipcardRoutes = require('./routes/flipcards');
 const featuredSolutionsRoutes = require('./routes/featuredSolutions');
 const clientsRoutes = require('./routes/clients');
 const uploadRoute = require('./routes/upload');
+const blogRoutes = require("./routes/blogs");
+const JoinTalent = require("./routes/JoinTalent");
+const teamUpRoutes = require("./routes/teamUpRoutes");
+const contactRoutes = require("./routes/contact");
+const userRoutes = require('./routes/userRoutes');
+const subscriptionRoutes = require('./routes/subscriptions');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -26,6 +32,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 connectDB();
 
@@ -33,18 +40,20 @@ connectDB();
 app.use('/api/users', userAuthRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/subpages', subpageRoutes);
-app.use('/api/flipcards', flipcardRoutes);
 app.use('/api/featuredSolutions', featuredSolutionsRoutes);
 app.use('/api/clients', clientsRoutes);
-
+app.use("/api/blogs", blogRoutes);
 // Admin login route - public, no token required
 app.use('/api/admin', adminAuthRoutes);
+app.use('/api/users', userRoutes);
 
-// Secure all other admin routes with token middleware, if any
-// Example:
-// app.use('/api/admin/secure-route', adminAuth, secureAdminRoutes);
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use('/api/upload', uploadRoute);
+app.use("/api/JoinTalent", JoinTalent);
+app.use("/api/teamup", teamUpRoutes);
+app.use("/api/contact", contactRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

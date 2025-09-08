@@ -1,20 +1,31 @@
 import React, { useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-
+import Footer from './components/Footer';
 import Header from "./components/Header";
 import Homepage from "./pages/Homepage";
 import ServicesPage from "./pages/ServicesPage";
-import CategoryPage from "./pages/CategoryPage";
+import AboutPage from "./pages/AboutPage";
 import Subpage from "./pages/Subpage";
-
+import BlogOverviewPage from './pages/BlogOverviewPage';
 import Signup from './pages/auth/Signup';
 import OtpVerify from './pages/auth/OtpVerify';
 import Login from './pages/auth/Login';
 import PasswordReset from './pages/auth/PasswordReset';
-
+import ContactPage from './pages/ContactPage'
 import JoinAsTalent from './pages/JoinAsTalent';
 import TeamUpRequest from './pages/TeamUpRequest';
 import CategoryOverviewPage from './pages/CategoryOverviewPage';
+import BlogPage from './pages/BlogPage';
+import Careers from "./pages/Careers";
+import CaseStudy from "./pages/CaseStudy";
+import CaseStudyDetailPage from "./pages/CaseStudyDetailPage";
+import IndustriesPage from "./pages/IndustriesPage";
+import IndustryPlaybookPage from "./pages/IndustryPlaybookPage";
+import ScrollToTop from "./components/ScrollToTop";
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
+import FAQsPage from './pages/FAQsPage';
+import Chatbot from "./components/Chatbot"; // <-- Import the Chatbot component
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -54,11 +65,23 @@ function App() {
   return (
     <>
       <Header />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Homepage onJoinAsTalent={startAuthFlow} />} />
         <Route path="/services" element={<ServicesPage />} />
-        <Route path="/categories" element={<CategoryPage />} />
-         <Route path="/subpage/:slug" element={<Subpage />} />
+        <Route path="/about" element={<AboutPage />} /> {/* Add the route for the About page */}
+        <Route path="/subpage/:slug" element={<Subpage />} />
+        <Route path="/blogs" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogOverviewPage />} />
+        <Route path="/careers" element={<Careers />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/case-studies" element={<CaseStudy />} />
+        <Route path="/case-studies/:slug" element={<CaseStudyDetailPage />} />
+        <Route path="/industries" element={<IndustriesPage />} />
+        <Route path="/industries/:slug" element={<IndustryPlaybookPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-of-service" element={<TermsPage />} />
+        <Route path="/faqs" element={<FAQsPage />} />
 
         {/* Dynamic category overview page by slug */}
         <Route path="/category/:slug" element={<CategoryOverviewPage />} />
@@ -71,6 +94,7 @@ function App() {
             </RedirectIfAuth>
           }
         />
+
         <Route
           path="/signup"
           element={
@@ -130,8 +154,12 @@ function App() {
           }
         />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        
+      
       </Routes>
+        <Chatbot />
+      <Footer />
+
     </>
   );
 }

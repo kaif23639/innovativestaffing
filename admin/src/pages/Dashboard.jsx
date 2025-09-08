@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Mail, Users } from 'lucide-react'; // Import necessary icons
 
 export default function Dashboard({ onLogout }) {
   return (
@@ -18,6 +19,7 @@ export default function Dashboard({ onLogout }) {
         </header>
 
         <nav className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          {/* Existing Links */}
           <Link
             to="/categories"
             className="flex flex-col items-center px-6 py-8 border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-indigo-50 hover:bg-indigo-100"
@@ -39,13 +41,31 @@ export default function Dashboard({ onLogout }) {
           </Link>
 
           <Link
-            to="/flipcards"
+            to="/blogs"
             className="flex flex-col items-center px-6 py-8 border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-yellow-50 hover:bg-yellow-100"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-yellow-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-3-3v6m2 7H7a2 2 0 01-2-2V7a2 2 0 012-2h2m4-2v4M5 12h14" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 21H5a2 2 0 01-2-2V7a2 2 0 012-2h4l2-3 2 3h4a2 2 0 012 2v12a2 2 0 01-2 2z" />
+              <circle cx="12" cy="11" r="3" />
             </svg>
-            <span className="text-lg font-semibold text-yellow-700">Manage FlipCards</span>
+            <span className="text-lg font-semibold text-yellow-700">Manage Blogs</span>
+          </Link>
+
+          {/* New Link for Subscriptions */}
+          <Link
+            to="/subscriptions"
+            className="flex flex-col items-center px-6 py-8 border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-purple-50 hover:bg-purple-100"
+          >
+            <Mail size={48} className="text-purple-600 mb-4" />
+            <span className="text-lg font-semibold text-purple-700">View Subscriptions</span>
+          </Link>
+          
+          <Link
+            to="/manage-users"
+            className="flex flex-col items-center px-6 py-8 border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 bg-blue-50 hover:bg-blue-100"
+          >
+            <Users size={48} className="text-blue-600 mb-4" />
+            <span className="text-lg font-semibold text-blue-700">Manage Users</span>
           </Link>
         </nav>
 

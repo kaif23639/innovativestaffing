@@ -1,18 +1,22 @@
 const Subpage = require('../models/Subpage');
 
+// List with optional category filtering
 exports.getAllSubpages = async (req, res) => {
   try {
     const filter = {};
     if (req.query.category) {
       filter.category = req.query.category;
     }
-    const subpages = await Subpage.find(filter).populate('category').sort({ order: 1 });
+    const subpages = await Subpage.find(filter)
+      .populate('category')
+      .sort({ order: 1 });
     res.json(subpages);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
+// Get by slug
 exports.getSubpageBySlug = async (req, res) => {
   try {
     const subpage = await Subpage.findOne({ slug: req.params.slug });
@@ -23,6 +27,7 @@ exports.getSubpageBySlug = async (req, res) => {
   }
 };
 
+// Get by ID
 exports.getSubpageById = async (req, res) => {
   try {
     const subpage = await Subpage.findById(req.params.id).populate('category');
@@ -33,10 +38,11 @@ exports.getSubpageById = async (req, res) => {
   }
 };
 
+// CREATE (accepts sections array from body)
 exports.createSubpage = async (req, res) => {
   try {
-    const { title, slug, description, content, category, order, image } = req.body;
-    const subpage = new Subpage({ title, slug, description, content, category, order, image });
+    const { title, slug, description, content, category, order, image, sections } = req.body;
+    const subpage = new Subpage({ title, slug, description, content, category, order, image, sections });
     await subpage.save();
     res.status(201).json(subpage);
   } catch (err) {
@@ -44,9 +50,10 @@ exports.createSubpage = async (req, res) => {
   }
 };
 
+// UPDATE (allows updating the sections array)
 exports.updateSubpage = async (req, res) => {
   try {
-    const updates = req.body;
+    const updates = req.body; // Can include `sections` and any other subpage field
     const subpage = await Subpage.findByIdAndUpdate(req.params.id, updates, { new: true });
     if (!subpage) return res.status(404).json({ msg: 'Subpage not found' });
     res.json(subpage);
@@ -55,6 +62,7 @@ exports.updateSubpage = async (req, res) => {
   }
 };
 
+// DELETE
 exports.deleteSubpage = async (req, res) => {
   try {
     const subpage = await Subpage.findByIdAndDelete(req.params.id);

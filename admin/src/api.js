@@ -1,8 +1,11 @@
 import axios from 'axios';
-
+const BASE_URL = 'https://innovative-staffing-1.onrender.com';
 const api = axios.create({
+
   baseURL: 'https://innovative-staffing-1.onrender.com', // Your backend URL
-  // You can add headers or interceptors here if needed
+
+  baseURL: BASE_URL, // Your backend URL
+
 });
 
 // Attach JWT token to each request if present
@@ -13,5 +16,5 @@ api.interceptors.request.use(config => {
   }
   return config;
 });
-
+export { BASE_URL };
 export default api;

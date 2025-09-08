@@ -21,27 +21,27 @@ export default function OtpVerify() {
     }
   }, [navigate]);
 
-const handleVerify = async (e) => {
-  e.preventDefault();
-  setMessage('');
-  setError('');
-  setVerifying(true);
-  try {
-    const res = await api.post('/api/users/signup/verify-otp', { ...formData, otp });
-    localStorage.removeItem('signupData');
+  const handleVerify = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    setError('');
+    setVerifying(true);
+    try {
+      const res = await api.post('/api/users/signup/verify-otp', {
+        ...formData,
+        otp,
+      });
+      localStorage.removeItem('signupData');
+      localStorage.setItem('token', res.data.token);
 
-    // Save the token returned by the backend into localStorage
-    localStorage.setItem('token', res.data.token);
-
-    setMessage('Signup successful! Redirecting...');
-    navigate('/'); // Redirect to homepage after success
-  } catch (err) {
-    setError(err.response?.data?.msg || 'OTP verification failed');
-  } finally {
-    setVerifying(false);
-  }
-};
-
+      setMessage('Signup successful! Redirecting...');
+      navigate('/');
+    } catch (err) {
+      setError(err.response?.data?.msg || 'OTP verification failed');
+    } finally {
+      setVerifying(false);
+    }
+  };
 
   const handleResend = async () => {
     if (resending || !formData?.email) return;
@@ -61,8 +61,8 @@ const handleVerify = async (e) => {
   if (!formData) return <p>Loading...</p>;
 
   return (
-    <div className="max-w-md mx-auto mt-16 p-8 bg-white rounded-xl shadow-lg font-sans">
-      <h2 className="text-2xl font-extrabold text-gray-900 mb-6 text-center">
+    <div className="max-w-md mx-auto mt-16 p-8 bg-black rounded-2xl shadow-lg font-sans border border-teal-700">
+      <h2 className="text-2xl font-extrabold text-teal-600 mb-6 text-center">
         Verify OTP for {formData.email}
       </h2>
       <form onSubmit={handleVerify}>
@@ -72,14 +72,16 @@ const handleVerify = async (e) => {
           value={otp}
           onChange={(e) => setOtp(e.target.value)}
           required
-          className="w-full mb-5 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          className="w-full mb-5 px-4 py-3 rounded-lg bg-gray-900 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
         />
         <div className="flex gap-4">
           <button
             type="submit"
             disabled={verifying}
-            className={`flex-grow py-3 rounded-lg font-semibold text-white transition ${
-              verifying ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+            className={`flex-grow py-3 rounded-lg font-semibold text-black transition ${
+              verifying
+                ? 'bg-teal-400 cursor-not-allowed'
+                : 'bg-teal-400 hover:bg-green-700 hover:text-white'
             }`}
           >
             {verifying ? 'Verifying...' : 'Verify'}
@@ -88,16 +90,22 @@ const handleVerify = async (e) => {
             type="button"
             disabled={resending}
             onClick={handleResend}
-            className={`flex-grow py-3 rounded-lg font-semibold text-white transition ${
-              resending ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+            className={`flex-grow py-3 rounded-lg font-semibold text-black transition ${
+              resending
+                ? 'bg-teal-400 cursor-not-allowed'
+                : 'bg-teal-400 hover:bg-green-700 hover:text-white'
             }`}
           >
             {resending ? 'Resending...' : 'Resend OTP'}
           </button>
         </div>
       </form>
-      {message && <p className="mt-4 text-green-600 font-medium text-center">{message}</p>}
-      {error && <p className="mt-4 text-red-600 font-medium text-center">{error}</p>}
+      {message && (
+        <p className="mt-4 text-green-500 font-medium text-center">{message}</p>
+      )}
+      {error && (
+        <p className="mt-4 text-red-500 font-medium text-center">{error}</p>
+      )}
     </div>
   );
 }

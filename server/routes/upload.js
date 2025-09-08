@@ -1,14 +1,15 @@
-const express = require('express');
+const express = require("express");
+const upload = require("../middleware/uploadMiddleware");
 const router = express.Router();
-const upload = require('../middleware/uploadMiddleware');
-const path = require('path');
 
-router.post('/', upload.single('image'), (req, res) => {
+router.post("/", upload.single("image"), (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
+    return res.status(400).json({ message: "No file uploaded" });
   }
-  // Return the file path/URL for frontend use
-  res.json({ url: `/uploads/${req.file.filename}` });
+  res.json({
+    message: "File uploaded successfully",
+    url: `/uploads/${req.file.filename}`,
+  });
 });
 
 module.exports = router;

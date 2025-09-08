@@ -25,9 +25,9 @@ export default function PasswordReset({ onBack }) {
   return (
     <form
       onSubmit={handlePasswordResetRequest}
-      className="max-w-md mx-auto mt-16 p-8 bg-white rounded-xl shadow-lg font-sans"
+      className="max-w-md mx-auto mt-16 p-8 bg-black rounded-2xl shadow-lg font-sans border border-teal-700"
     >
-      <h2 className="text-2xl font-extrabold text-gray-900 mb-6 text-center">
+      <h2 className="text-2xl font-extrabold text-teal-600 mb-6 text-center">
         Password Reset
       </h2>
 
@@ -37,30 +37,32 @@ export default function PasswordReset({ onBack }) {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        className="w-full mb-5 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        className="w-full mb-5 px-4 py-3 rounded-lg bg-gray-900 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
       />
 
       <button
         type="submit"
         disabled={loading}
-        className={`w-full py-3 rounded-lg font-semibold text-white transition ${
-          loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+        className={`w-full py-3 rounded-lg font-semibold text-black transition ${
+          loading
+            ? 'bg-teal-400 cursor-not-allowed'
+            : 'bg-teal-400 hover:bg-green-700 hover:text-white'
         }`}
       >
         {loading ? 'Requesting...' : 'Request Password Reset'}
       </button>
 
       {message && (
-        <p className="mt-4 text-green-600 font-medium text-center">{message}</p>
+        <p className="mt-4 text-green-500 font-medium text-center">{message}</p>
       )}
       {error && (
-        <p className="mt-4 text-red-600 font-medium text-center">{error}</p>
+        <p className="mt-4 text-red-500 font-medium text-center">{error}</p>
       )}
 
       <button
         type="button"
         onClick={onBack}
-        className="mt-6 block mx-auto text-center text-blue-600 font-semibold hover:underline"
+        className="mt-6 block mx-auto text-center text-teal-400 font-semibold hover:text-teal-200"
       >
         Back
       </button>

@@ -1,5 +1,6 @@
 const Category = require('../models/Category');
 
+// Get all categories
 exports.getAllCategories = async (req, res) => {
   try {
     const categories = await Category.find().sort({ order: 1 });
@@ -9,6 +10,7 @@ exports.getAllCategories = async (req, res) => {
   }
 };
 
+// Get category by ID
 exports.getCategoryById = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
@@ -19,6 +21,7 @@ exports.getCategoryById = async (req, res) => {
   }
 };
 
+// Get category by slug
 exports.getCategoryBySlug = async (req, res) => {
   try {
     const category = await Category.findOne({ slug: req.params.slug });
@@ -29,10 +32,11 @@ exports.getCategoryBySlug = async (req, res) => {
   }
 };
 
+// Create new category (with sections array support)
 exports.createCategory = async (req, res) => {
   try {
-    const { name, slug, description, order, image } = req.body;  // Added image here
-    const category = new Category({ name, slug, description, order, image });
+    const { name, slug, description, order, image, sections } = req.body;
+    const category = new Category({ name, slug, description, order, image, sections });
     await category.save();
     res.status(201).json(category);
   } catch (err) {
@@ -40,9 +44,10 @@ exports.createCategory = async (req, res) => {
   }
 };
 
+// Update category (with sections array support)
 exports.updateCategory = async (req, res) => {
   try {
-    const updates = req.body;
+    const updates = req.body; // can include sections array
     const category = await Category.findByIdAndUpdate(req.params.id, updates, {
       new: true,
     });
@@ -53,6 +58,7 @@ exports.updateCategory = async (req, res) => {
   }
 };
 
+// Delete category
 exports.deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
