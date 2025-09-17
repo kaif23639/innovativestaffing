@@ -44,6 +44,7 @@ export default function SetNewPassword() {
   };
 
   return (
+        <div className='bg-black flex items-center justify-center h-96'>
     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-16 p-8 bg-black rounded-2xl shadow-lg border border-teal-700">
       <h2 className="text-2xl font-extrabold text-teal-600 mb-6 text-center">Set New Password</h2>
       <input
@@ -68,5 +69,7 @@ export default function SetNewPassword() {
       {message && <p className="mt-4 text-green-500 text-center">{message}</p>}
       {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
     </form>
+          </div>
   );
+
 }
