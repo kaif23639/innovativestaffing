@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api';
 
-export default function Login({ onVerified }) {
+export default function Login({ onNext }) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,22 +25,14 @@ export default function Login({ onVerified }) {
     try {
       const { data } = await api.post('/api/users/login', formData);
 
-      // 2. THIS IS THE MOST IMPORTANT CHANGE.
-      // Call the onVerified function passed down from App.jsx.
-      // This is what updates the state for the entire application.
-      // We pass the token and user data directly to it.
-      onVerified(data.token, data.user);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
 
-      // 3. REMOVE the redundant and problematic lines.
-      // App.jsx will now handle setting localStorage and navigating.
-      // localStorage.setItem('token', data.token);
-      // localStorage.setItem('user', JSON.stringify(data.user));
-      // navigate('/');
-
-      // You can still keep a success message if you want, but navigation
-      // will happen immediately anyway.
       setMessage('Login successful');
 
+      if (onNext) onNext(data);
+
+      navigate('/');
     } catch (err) {
       setError(err.response?.data?.msg || 'Login failed');
     } finally {
@@ -49,6 +41,7 @@ export default function Login({ onVerified }) {
   };
 
   return (
+    // Corrected wrapper div for styling and positioning
     <div className="bg-black min-h-screen pt-32 pb-16 flex flex-col justify-center items-center font-sans">
       <form
         onSubmit={handleLogin}
@@ -115,7 +108,7 @@ export default function Login({ onVerified }) {
           |{' '}
           <button
             type="button"
-            onClick={() => navigate('/passwordreset')}
+            onClick={() => navigate('/forgot-password')}
             className="text-teal-400 hover:text-teal-200 font-semibold"
             disabled={loading}
           >
