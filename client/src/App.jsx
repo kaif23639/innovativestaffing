@@ -10,7 +10,9 @@ import BlogOverviewPage from './pages/BlogOverviewPage';
 import Signup from './pages/auth/Signup';
 import OtpVerify from './pages/auth/OtpVerify';
 import Login from './pages/auth/Login';
-import PasswordReset from './pages/auth/PasswordReset';
+import PasswordResetRequest from './pages/auth/PasswordResetRequest';
+import OtpVerifyReset from './pages/auth/OtpVerifyReset';
+import SetNewPassword from './pages/auth/SetNewPassword';
 import ContactPage from './pages/ContactPage'
 import JoinAsTalent from './pages/JoinAsTalent';
 import TeamUpRequest from './pages/TeamUpRequest';
@@ -107,7 +109,9 @@ function App() {
         <Route path="/login" element={<RedirectIfAuth><Login onVerified={handleVerified} /></RedirectIfAuth>} />
         <Route path="/signup" element={<RedirectIfAuth><Signup /></RedirectIfAuth>} />
         <Route path="/verify-otp" element={<RedirectIfAuth><OtpVerify onVerified={handleVerified} /></RedirectIfAuth>} />
-        <Route path="/passwordreset" element={<RedirectIfAuth><PasswordReset /></RedirectIfAuth>} />
+        <Route path="/forgot-password" element={<PasswordResetRequest />} />
+        <Route path="/verify-otp-reset" element={<OtpVerifyReset />} />
+        <Route path="/set-new-password" element={<SetNewPassword />} />
         <Route path="/join-as-talent" element={<RequireAuth><JoinAsTalent /></RequireAuth>} />
         <Route path="/team-up-request" element={<TeamUpRequest />} />
       </Routes>
