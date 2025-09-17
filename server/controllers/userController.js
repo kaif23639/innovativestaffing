@@ -71,3 +71,61 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+
+
+exports.requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.json({ message: 'If a user with that email exists, a password reset link has been sent.' });
+    }
+
+    const otp = generateOtp(); // Reusing your existing OTP generator
+    user.otp = otp;
+    user.otpExpire = new Date(Date.now() + 10 * 60 * 1000); // 10 minute expiry
+
+    await user.save();
+
+    await sendOtpEmail(user.email, otp); 
+
+    res.json({ message: 'Password reset instructions sent to your email.' });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const { email, otp, password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ msg: 'Passwords do not match.' });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: 'Invalid request.' });
+    }
+
+    // Check if OTP is valid and not expired
+    if (user.otp !== otp || user.otpExpire < new Date()) {
+      return res.status(400).json({ msg: 'OTP is invalid or has expired.' });
+    }
+
+    // If OTP is valid, update the password
+    user.password = password; // The pre-save hook in your User model will hash it
+    user.otp = null;          // Invalidate the OTP after use
+    user.otpExpire = null;    // Invalidate the OTP after use
+
+    await user.save();
+    res.json({ message: 'Password has been reset successfully.' });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
