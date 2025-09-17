@@ -1,18 +1,20 @@
-// utils/emailService.js
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    pass: process.env.EMAIL_PASS, 
   },
-});
 
+});
 
 async function sendOtpEmail(to, otp) {
   const mailOptions = {
-    from: process.env.EMAIL_FROM || '"INNOVATIVE STAFFING SOLUTION" <no-reply@innovativestaffing.com>',
+    from: process.env.EMAIL_FROM ||
+          '"INNOVATIVE STAFFING SOLUTION" <no-reply@innovativestaffing.com>',
     to,
     subject: 'Your INNOVATIVE STAFFING SOLUTION OTP Code',
     text: `Dear User,
@@ -31,3 +33,4 @@ INNOVATIVE STAFFING SOLUTION Team`,
 }
 
 module.exports = { sendOtpEmail };
+
